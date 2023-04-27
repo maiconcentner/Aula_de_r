@@ -131,6 +131,7 @@ dados %>%
   ) %>% 
   filter(height > media_altura, weight > media_peso) %>%
   select(-media_altura, -media_peso) %>% View 
+
 #aqui estou excluindo a coluna criada media_altura
   
 #a função rowaise realiza operação linha por linha
@@ -138,3 +139,37 @@ dados %>%
 #LIÇÃO : CRIAR UMA COLUNA COM A TRANSFORMAÇÃO Z-score PARA a ALTURA por type 
 #devemos subtrair a média da amostra do valor de cada observação e dividir
 #pelo desvio padrão da amostra
+
+dados %>% 
+  group_by(type) %>% 
+    mutate(
+      Zscore = 
+        (height - mean(height)) / sd(height)
+      ) %>% View
+
+#linha para conferir se esta calculando certo
+dados %>% 
+  group_by(type) %>% 
+  mutate(
+    media_altura = mean(height),
+    desvio_padrao = sd(height)
+    ) %>% View
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

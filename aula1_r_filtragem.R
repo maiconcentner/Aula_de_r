@@ -68,5 +68,73 @@ dados %>% select(type) %>% unique
 #? Selecionando duas colunas com o select
 dados %>%  select(type, secundary.type) %>% unique
 
+#? Função mutate modifica ou cria uma coluna com base em outros
+mutate(dados, height2 = 2*height)
 
+dados %>% 
+  mutate (
+    height2 = 2*height,
+    speed2 = 2*speed,
+    bee = grepl("bee", name)
+  )
+dados %>% head
 
+#?Função arrange (organiza o data frame com base em colunas)
+#?head mostra o começo da tabela e tail mostra o final
+dados %>% 
+  arrange(name) %>% 
+    head()
+
+dados %>% 
+  arrange(name) %>% 
+    tail()
+
+#? organizando em forma descrescente
+dados %>% 
+  arrange(desc(name)) %>% 
+    head()
+
+#? Realizando algumas análises
+
+#? summarise resume os dados
+
+dados %>% 
+  summarise(
+    media_altura = mean(height),
+    media_peso = mean(weight)
+  )
+
+#realizando a análise para grupos
+dados %>% 
+  group_by(type) %>% 
+    summarise(
+      media_altura = mean(height),
+      media_peso = mean(weight),
+      N = n()
+    ) %>% 
+        arrange(media_altura, media_peso)
+
+#Exercício: filtrar os pokemons que tem o peso acima da média da altura do seu type
+#primeiramente vou agrupar os pokemons por tipo
+dados %>%
+  group_by(type) %>% 
+  mutate(
+    media_altura = mean(height)
+  )
+#mesmo comando com o filtros na altura e peso
+
+dados %>% 
+  group_by(type) %>% 
+  mutate(
+    media_altura = mean(height),
+    media_peso = mean(weight)
+  ) %>% 
+  filter(height > media_altura, weight > media_peso) %>%
+  select(-media_altura, -media_peso) %>% View 
+#aqui estou excluindo a coluna criada media_altura
+  
+#a função rowaise realiza operação linha por linha
+
+#LIÇÃO : CRIAR UMA COLUNA COM A TRANSFORMAÇÃO Z-score PARA a ALTURA por type 
+#devemos subtrair a média da amostra do valor de cada observação e dividir
+#pelo desvio padrão da amostra

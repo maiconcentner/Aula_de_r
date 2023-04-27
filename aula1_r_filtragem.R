@@ -11,6 +11,7 @@ library(dplyr)
 library(lubridate)
 library(stringr)
 
+#? setando diretório de trabalho
 setwd("d:\\Mestrado\\1Sem_23\\Ferramentas computacionais\\R_pokemon")
 
 #? Vamos começar com os dados de pokemon
@@ -29,7 +30,8 @@ head(dados) #? vê as primeiras linhas de dados
 
 #? Exemplo: contar o número de linhas de dados
 
-nrow(dados)
+dados 
+nrow(dados) 
 dados %>% nrow()
 dados %>% nrow(.)
 
@@ -40,20 +42,31 @@ filter(dados, type == "grass")
 
 #? podemos usar o seguinte comando também
 #dados %>% filter(type == "grass")
-
+dados %>% filter(type == "grass")
 
 #Filtrar tipo fogo ou água
-filter(dados, type == "fire"|type =="water")
+df_fogo_ou_agua <- dados %>% filter(type == "fire"|type =="water")
 
 #dados %>% filter(type == "grass")
 #TODO Vamos filtrar todos os pokemons do tipo fogo ou água
+dados %>% filter(grepl("water",type) | grepl("fire"))
 
 #TODO Vamos filtrar todos os pokemons que tem  "fly"
-filter(dados,secundary.type == "flying")
+dados %>% filter(grepl("fly", name))
 #TODO Vamos filtrar todos os pokemons que tem  "bee" ou "saur"
-filter(dados,names == "bee"|names=="saur")
-texto_filtrado <- dados[str_detect(dados$name, "bee|saur"),]
+dados %>% filter(grepl("bee", name) | grepl("saur", name))
 
-# Imprimir o resultado
-texto_filtrado
+#? A função pull devolve um vetor
+dados %>% 
+  filter(type == "fire") %>% 
+  pull(secundary.type) %>% 
+  unique
+
+#? A função select retorna uma coluna e não um vetor
+dados %>% select(type) %>% unique
+
+#? Selecionando duas colunas com o select
+dados %>%  select(type, secundary.type) %>% unique
+
+
 

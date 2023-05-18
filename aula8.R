@@ -81,6 +81,60 @@ dados %>%
     tamanho = f2(height)
   ) %>% head
 
+#? Join
+
+df_means <- dados %>% 
+  group_by(type) %>% 
+  summarise(
+    media_h = mean(height),
+    media_w = mean(weight)
+  )
+
+df_means
+
+#? Excluindo os grupos que começam com "g"
+
+df_means <- df_means %>%
+  filter(!grepl("^g",type))
+
+#? Criando um grupo que não existe
+
+novo_grupo <- data.frame(
+  type = "Vozes da minha cabeça",
+  media_H = 1000,
+  media_w = 400.82
+)
+
+#? Adicionar o grupo
+
+df_means <- rbind(df_means, novo_grupo)
+
+#? full join
+
+df <- full_join(dados, df_means, by="type")
+View(df)
+
+#? inner join
+
+df <- inner_join(dados, df_means, by="type")
+View(df)
+
+#? left
+
+df <- left_join(dados, df_means, by="type")
+View(df)
+
+#? right
+
+df <- right_join(dados, df_means, by="type")
+View(df)
+
+
+
+
+
+
+
 
 
 
